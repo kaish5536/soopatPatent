@@ -22,12 +22,13 @@ class spider():
 				'Accept-Encoding':'gzip, deflate, sdch',
 				'Accept-Language':'zh-CN,zh;q=0.8',
 				'Cache-Control':'max-age=0',
-				'Cookie':'ASP.NET_SessionId=v1mbl1bk3amlgeli13oglbqz; __utmc=135424883; __utmz=135424883.1472540222.8.7.utmccn=(referral)|utmcsr=www2.soopat.com|utmcct=/Home/Result|utmcmd=referral; advu1=; advu2=; advu3=; advu4=; auth=149ezDBNgl2JYH1QxRVaHZ1NBuRuI%2BqwEpobuwy%2FbwHNTdUx2Ux%2BX4X6els249bcMwaqBS%2Flw0V3TVS7SpS5feAKlns; suid=D8AEFE0DAE523BF1; sunm=kaish; login_credits=1472542667; sid=BzeOXw; patentids=; __utmb=135424883; __utma=135424883.120591016.1461684574.1472537360.1472540222.8',
+				'Connection':'keep-alive',
+				'Cookie':'__utmc=135424883; __utmz=135424883.1472568613.12.11.utmccn=(referral)|utmcsr=www2.soopat.com|utmcct=/Home/Result|utmcmd=referral; advu1=; advu2=; advu3=; advu4=; auth=ec179%2BG4tbM3AggZaA13oA42D6GgzS393TJ%2Bf0jEnRxw5GS2L712hpDy0pbwJrL4P%2F1GgBYD%2FIwjs8eauXhQzl9Ek3g; suid=D8AEFE0DAE523BF1; sunm=kaish; login_credits=1472568754; sid=H3DHsE; patentids=; __utmb=135424883; __utma=135424883.120591016.1461684574.1472558143.1472568613.12',
 				'Host':'www2.soopat.com',
 				'Upgrade-Insecure-Requests':'1',
 				'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'
 				}
-		html=requests.get(link,headers=header,timeout=30)
+		html=requests.get(link,headers=header,timeout=50)
 		
 		#页面长度
 		#剔除没有该申请号的 状态要求 “审中-”，包括公开和实审，下文二次筛选
@@ -75,8 +76,8 @@ class spider():
 		
 if __name__=='__main__':
 	
-	go   = 201410000020
-	stop = 201420000000
+	go   = 201410000593
+	stop = 201410005000
 	
 	count=go
 	allinfo=[]
@@ -86,18 +87,21 @@ if __name__=='__main__':
 	
 	for link in all_urls:
 		print(str(count))
-		page=soospider.getHtml(link)
-		if (page!=None and page!=0):
-			print('\b'+'>>>>>>符合条件')
-			allinfo.append(page)
-			#单项保存，避免程序崩溃
-			soospider.saveFile(page)
-		elif (page==0):
-			print('需要输入验证码'+'\n'+'目前已经完成到:'+str(count)+'请稍后继续')
-			break
-		#print(page)
-		count+=1
-		time.sleep(5)
+		try:
+			page=soospider.getHtml(link)
+			if (page!=None and page!=0):
+				print('\b'+'>>>>>>符合条件')
+				allinfo.append(page)
+				#单项保存，避免程序崩溃
+				soospider.saveFile(page)
+			elif (page==0):
+				print('需要输入验证码'+'\n'+'目前已经完成到:'+str(count)+'请稍后继续')
+				break
+			#print(page)
+			count+=1
+			time.sleep(2)
+		except:
+			print('超时跳过')
 	print('已存储')
 	
 	
