@@ -27,7 +27,7 @@ class spider():
 				'Upgrade-Insecure-Requests':'1',
 				'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'
 				}
-		html=requests.get(link,headers=header,timeout=300)
+		html=requests.get(link,headers=header,timeout=30)
 		
 		#页面长度
 		#剔除没有该申请号的 状态要求 “审中-”，包括公开和实审，下文二次筛选
@@ -75,7 +75,7 @@ class spider():
 		
 if __name__=='__main__':
 	
-	go   = 201410000010
+	go   = 201410000020
 	stop = 201420000000
 	
 	count=go
